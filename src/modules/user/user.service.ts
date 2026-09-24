@@ -22,4 +22,18 @@ export class UserService {
         const user = this.userRepository.create(userData);
         return this.userRepository.save(user);
     }
+    //Hàm hiển thị dữ liệu theo yêu cầu
+    findOne(id: number){
+        return this.userRepository.findOneBy({ id });
+    }
+    //Hàm cập nhật dữ liệu
+    async update(id:number, data: Partial<User>){
+        await this.userRepository.update(id, data);
+        return this.findOne;
+    }
+    //Hàm xóa dữ liệu
+    async remove (id: number){
+        await this.userRepository.delete(id);
+        return { delete: true};
+    }
 }
