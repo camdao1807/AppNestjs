@@ -7,33 +7,36 @@ import { User } from './user.entity';
 @Injectable()
 export class UserService {
     constructor(
-        //Inject Repositoty vào Service
+        // Inject Repository vào Service
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>, // Inject repository
+        private readonly userRepository: Repository<User>,
     ) { }
 
-    //Tạo hàm tìm kiếm tất cả dữ liệu
+    // Tạo hàm tìm kiếm tất cả dữ liệu
     async findAll(): Promise<User[]> {
         return this.userRepository.find();
     }
 
-    //Tạo hàm tạo cơ sở dữ liệu
+    // Tạo hàm tạo cơ sở dữ liệu
     async create(userData: Partial<User>): Promise<User> {
         const user = this.userRepository.create(userData);
         return this.userRepository.save(user);
     }
-    //Hàm hiển thị dữ liệu theo yêu cầu
-    findOne(id: number){
+
+    // Hàm hiển thị dữ liệu theo ID
+    findOne(id: number) {
         return this.userRepository.findOneBy({ id });
     }
-    //Hàm cập nhật dữ liệu
-    async update(id:number, data: Partial<User>){
+
+    // Hàm cập nhật dữ liệu
+    async update(id: number, data: Partial<User>) {
         await this.userRepository.update(id, data);
-        return this.findOne;
+        return await this.findOne(id); // Đã sửa: gọi hàm findOne(id) có await và ngoặc tròn
     }
-    //Hàm xóa dữ liệu
-    async remove (id: number){
+
+    // Hàm xóa dữ liệu
+    async remove(id: number) {
         await this.userRepository.delete(id);
-        return { delete: true};
+        return { delete: true };
     }
 }
